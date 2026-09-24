@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - SECMS | College Management</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233b82f6'/%3E%3Cpath d='M8 12l8-5 8 5-8 5-8-5z' fill='%2304101f'/%3E%3Cpath d='M10 14v6c0 1.7 2.7 3 6 3s6-1.3 6-3v-6l-6 3.7L10 14z' fill='%2322d3ee'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-badge">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+            <path d="M5 12l11-7 11 7-11 7-11-7z" fill="#04101f"/>
+            <path d="M8 15v7c0 2.4 3.6 4.2 8 4.2s8-1.8 8-4.2v-7l-8 5-8-5z" fill="#bfeaff"/>
+          </svg>
+        </div>
+        <div>
+          <h1>SECMS</h1>
+          <p>College Management Portal</p>
+        </div>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="loginUser">Username</label>
+          <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username" required />
+        </div>
+
+        <div class="field">
+          <label for="loginPass">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password" required />
+            <button type="button" class="toggle-pass" data-target="loginPass" aria-label="Toggle password">Show</button>
+          </div>
+        </div>
+
+        <div class="login-error" id="loginError" hidden></div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+          <span>Sign In</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <div class="login-hint">
+        <span class="badge muted">Demo account</span> use <strong>admin</strong> / <strong>admin123</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/helpers.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/login.js"></script>
+  <script>
+    (async function checkSession() {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+        const data = await res.json();
+        if (res.ok && data.admin) {
+          window.location.replace('app.html');
+        }
+      } catch (e) { /* not authenticated - stay on login */ }
+    })();
+  </script>
+</body>
+</html>
